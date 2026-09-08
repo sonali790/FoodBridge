@@ -1,3 +1,4 @@
+﻿import { API_BASE_URL } from '../config/api';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -11,13 +12,13 @@ import { useToast } from './ToastContext';
 
 const THEME = {
   restaurant: {
-    heroTitle: '🍽️ Restaurant Password Reset',
+    heroTitle: 'ðŸ½ï¸ Restaurant Password Reset',
     loginPath: '/restaurant?mode=login',
     accent: 'primary',
     gradient: 'from-primary-light/60 via-white to-secondary-light/50',
   },
   ngo: {
-    heroTitle: '🤝 NGO Password Reset',
+    heroTitle: 'ðŸ¤ NGO Password Reset',
     loginPath: '/ngo?mode=login',
     accent: 'secondary',
     gradient: 'from-secondary-light/60 via-white to-primary-light/50',
@@ -204,3 +205,4 @@ function ForgotPasswordFlow({ role }) {
 }
 
 export default ForgotPasswordFlow;
+

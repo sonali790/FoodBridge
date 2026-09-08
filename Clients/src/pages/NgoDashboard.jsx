@@ -1,3 +1,4 @@
+﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -50,13 +51,13 @@ function NgoDashboard() {
 
     try {
       const [listingsRes, pickupsRes, notifsRes] = await Promise.allSettled([
-        axios.get('http://localhost:5000/api/listings/available', {
+        axios.get(`${API_BASE_URL}/api/listings/available`, {
           headers: { Authorization: `Bearer ${token}` }
         }),
-        axios.get('http://localhost:5000/api/listings/my-pickups', {
+        axios.get(`${API_BASE_URL}/api/listings/my-pickups`, {
           headers: { Authorization: `Bearer ${token}` }
         }),
-        axios.get('http://localhost:5000/api/notifications/mine', {
+        axios.get(`${API_BASE_URL}/api/notifications/mine`, {
           headers: { Authorization: `Bearer ${token}` }
         })
       ]);
@@ -96,7 +97,7 @@ function NgoDashboard() {
       <PageTransition>
         <div className="space-y-8 font-sans bg-[#F8F6F3] text-[#1F2D23]">
           
-          {/* ──────────────── HERO SECTION (ONE CONTINUOUS WARM BEIGE → LIGHT OLIVE → CREAM GRADIENT) ──────────────── */}
+          {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ HERO SECTION (ONE CONTINUOUS WARM BEIGE â†’ LIGHT OLIVE â†’ CREAM GRADIENT) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <div
             className="relative min-h-[180px] border border-[#E7E5E0] rounded-[20px] p-6 md:p-8 flex flex-col justify-between overflow-hidden shadow-xs"
             style={{ background: 'linear-gradient(135deg, #E8DDD9 0%, #F4F2EB 50%, #DCD7C3 100%)' }}
@@ -111,7 +112,7 @@ function NgoDashboard() {
                 <span>NGO COMMUNITY DASHBOARD</span>
               </div>
               <h1 className="text-2xl md:text-3xl font-extrabold text-[#1F2D23] tracking-tight leading-snug">
-                Hello, {name} 👋
+                Hello, {name} ðŸ‘‹
               </h1>
               <p className="text-[#6B7280] text-sm mt-1 max-w-xl font-normal">
                 Manage food pickups and surplus donations near your location efficiently.
@@ -136,7 +137,7 @@ function NgoDashboard() {
             </div>
           </div>
 
-          {/* ──────────────── STATISTICS CARDS (WHITE CARDS WITH BRAND ICON CIRCLES) ──────────────── */}
+          {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ STATISTICS CARDS (WHITE CARDS WITH BRAND ICON CIRCLES) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {/* Card 1: Available Listings */}
             <div className="bg-white border border-[#E7E5E0] rounded-[20px] p-6 shadow-xs hover:-translate-y-1 hover:shadow-md transition-all duration-200 flex flex-col justify-between">
@@ -211,7 +212,7 @@ function NgoDashboard() {
             </div>
           </section>
 
-          {/* ──────────────── QUICK ACTIONS SECTION ──────────────── */}
+          {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ QUICK ACTIONS SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <section>
             <h2 className="text-[22px] font-extrabold text-[#1F2D23] mb-4 tracking-tight">
               Quick Actions
@@ -285,7 +286,7 @@ function NgoDashboard() {
             </div>
           </section>
 
-          {/* ──────────────── MAIN CONTENT & SIDE WIDGETS GRID ──────────────── */}
+          {/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ MAIN CONTENT & SIDE WIDGETS GRID â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             {/* Left Column (2 Cols): Urgent Food Donations Nearby */}
@@ -329,7 +330,7 @@ function NgoDashboard() {
                     className="bg-[#3E5F48] hover:bg-[#4F6A57] text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-xs transition-all duration-150 active:scale-95 flex items-center gap-2 disabled:opacity-60"
                   >
                     <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-                    <span>{refreshing ? 'Refreshing…' : 'Refresh Listings'}</span>
+                    <span>{refreshing ? 'Refreshingâ€¦' : 'Refresh Listings'}</span>
                   </button>
                 </div>
               ) : (
@@ -417,7 +418,7 @@ function NgoDashboard() {
                     to="/ngo/notifications"
                     className="text-xs font-semibold text-[#3E5F48] hover:underline"
                   >
-                    View All →
+                    View All â†’
                   </Link>
                 </div>
 
@@ -470,7 +471,7 @@ function NgoDashboard() {
                             {p.foodType} ({p.quantity}kg)
                           </p>
                           <p className="text-[#64748B] text-[11px] mt-0.5">
-                            Status: <span className="font-semibold text-[#3E5F48]">{p.status}</span> · {p.restaurant?.name || 'Restaurant'}
+                            Status: <span className="font-semibold text-[#3E5F48]">{p.status}</span> Â· {p.restaurant?.name || 'Restaurant'}
                           </p>
                           <p className="text-[10px] text-gray-400 mt-1">{timeAgo(p.createdAt)}</p>
                         </div>
@@ -491,3 +492,5 @@ function NgoDashboard() {
 }
 
 export default NgoDashboard;
+
+

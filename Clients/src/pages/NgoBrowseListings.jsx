@@ -1,3 +1,4 @@
+﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -41,7 +42,7 @@ function NgoBrowseListings() {
   const fetchListings = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/listings/available', {
+      const res = await axios.get(`${API_BASE_URL}/api/listings/available`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setListings(res.data || []);
@@ -58,7 +59,7 @@ function NgoBrowseListings() {
       await axios.post(`http://localhost:5000/api/listings/${id}/claim`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      showToast(`Successfully claimed ${foodType}! 🎉`, 'success');
+      showToast(`Successfully claimed ${foodType}! ðŸŽ‰`, 'success');
       fetchListings();
     } catch (err) {
       showToast(err.response?.data?.message || 'Failed to claim listing', 'error');
@@ -108,7 +109,7 @@ function NgoBrowseListings() {
               Browse Available Listings
             </h1>
             <p className="text-[#64748B] text-base mt-1">
-              Surplus food donations matched to your location — claimed on a fair, first-come-first-served basis.
+              Surplus food donations matched to your location â€” claimed on a fair, first-come-first-served basis.
             </p>
           </div>
 
@@ -121,7 +122,7 @@ function NgoBrowseListings() {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-gray-400 pointer-events-none" />
                 <input
                   type="text"
-                  placeholder="Search food type, restaurant name, or area…"
+                  placeholder="Search food type, restaurant name, or areaâ€¦"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full pl-11 pr-4 py-3 text-sm border border-[#E7E5E0] rounded-xl outline-none bg-[#F8F6F3] focus:bg-white focus:border-[#3E5F48] focus:ring-2 focus:ring-[#3E5F48]/20 transition-all placeholder:text-gray-400"
@@ -133,7 +134,7 @@ function NgoBrowseListings() {
                 <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-gray-400 pointer-events-none" />
                 <input
                   type="text"
-                  placeholder="Filter by city/area…"
+                  placeholder="Filter by city/areaâ€¦"
                   value={locationFilter}
                   onChange={(e) => setLocationFilter(e.target.value)}
                   className="w-full pl-11 pr-4 py-3 text-sm border border-[#E7E5E0] rounded-xl outline-none bg-[#F8F6F3] focus:bg-white focus:border-[#3E5F48] focus:ring-2 focus:ring-[#3E5F48]/20 transition-all placeholder:text-gray-400"
@@ -197,7 +198,7 @@ function NgoBrowseListings() {
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 gap-3">
               <RefreshCw className="w-8 h-8 text-[#3E5F48] animate-spin" />
-              <p className="text-sm font-medium text-[#64748B]">Loading nearby listings…</p>
+              <p className="text-sm font-medium text-[#64748B]">Loading nearby listingsâ€¦</p>
             </div>
           ) : filtered.length === 0 ? (
             /* Empty State */
@@ -211,7 +212,7 @@ function NgoBrowseListings() {
               <p className="text-sm text-[#64748B] max-w-md mx-auto mb-6 leading-relaxed">
                 {search || selectedCategory !== 'All'
                   ? 'Try clearing your search query or selecting a different category filter.'
-                  : 'Check back soon — nearby restaurants post fresh surplus food listings throughout the day.'}
+                  : 'Check back soon â€” nearby restaurants post fresh surplus food listings throughout the day.'}
               </p>
               {(search || selectedCategory !== 'All' || locationFilter) && (
                 <button
@@ -293,7 +294,7 @@ function NgoBrowseListings() {
                       {claimingId === listing._id ? (
                         <>
                           <RefreshCw className="w-4 h-4 animate-spin" />
-                          <span>Claiming…</span>
+                          <span>Claimingâ€¦</span>
                         </>
                       ) : (
                         <>
@@ -315,3 +316,5 @@ function NgoBrowseListings() {
 }
 
 export default NgoBrowseListings;
+
+

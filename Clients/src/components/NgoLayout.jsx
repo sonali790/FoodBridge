@@ -1,3 +1,4 @@
+﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -25,13 +26,13 @@ function NgoLayout({ children }) {
 
   const fetchBadges = () => {
     if (!token) return;
-    axios.get('http://localhost:5000/api/notifications/mine', {
+    axios.get(`${API_BASE_URL}/api/notifications/mine`, {
       headers: { Authorization: `Bearer ${token}` }
     }).then((res) => {
       setUnreadCount(res.data.filter((n) => !n.read).length);
     }).catch(() => {});
 
-    axios.get('http://localhost:5000/api/ratings/badge-count', {
+    axios.get(`${API_BASE_URL}/api/ratings/badge-count`, {
       headers: { Authorization: `Bearer ${token}` }
     }).then((res) => {
       setPendingRatings(res.data.total);
@@ -204,3 +205,5 @@ function NgoLayout({ children }) {
 }
 
 export default NgoLayout;
+
+

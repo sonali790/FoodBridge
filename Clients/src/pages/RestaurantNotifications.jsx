@@ -1,3 +1,4 @@
+﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -28,7 +29,7 @@ function RestaurantNotifications() {
   }, []);
 
   const fetchNotifications = async () => {
-    const res = await axios.get('http://localhost:5000/api/notifications/mine', {
+    const res = await axios.get(`${API_BASE_URL}/api/notifications/mine`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setNotifications(res.data);
@@ -150,3 +151,5 @@ function RestaurantNotifications() {
 }
 
 export default RestaurantNotifications;
+
+

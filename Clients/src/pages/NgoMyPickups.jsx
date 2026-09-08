@@ -1,3 +1,4 @@
+﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -29,7 +30,7 @@ function StarPicker({ value, onChange }) {
           className="text-2xl transition-transform duration-150 hover:scale-125 focus:outline-none"
           aria-label={`${n} star${n > 1 ? 's' : ''}`}
         >
-          {n <= value ? '⭐' : '☆'}
+          {n <= value ? 'â­' : 'â˜†'}
         </button>
       ))}
     </div>
@@ -60,7 +61,7 @@ function NgoMyPickups() {
   const fetchPickups = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/listings/my-pickups', {
+      const res = await axios.get(`${API_BASE_URL}/api/listings/my-pickups`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPickups(res.data || []);
@@ -77,7 +78,7 @@ function NgoMyPickups() {
       await axios.post(`http://localhost:5000/api/listings/${id}/confirm-pickup`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      showToast('Pickup confirmed! Thank you for reducing food waste. 🎉', 'success');
+      showToast('Pickup confirmed! Thank you for reducing food waste. ðŸŽ‰', 'success');
       fetchPickups();
     } catch (err) {
       showToast(err.response?.data?.message || 'Failed to confirm pickup', 'error');
@@ -89,7 +90,7 @@ function NgoMyPickups() {
   const submitRating = async () => {
     setSubmittingRating(true);
     try {
-      await axios.post('http://localhost:5000/api/ratings', {
+      await axios.post(`${API_BASE_URL}/api/ratings`, {
         listingId: ratingListing._id, stars, comment, isComplaint
       }, { headers: { Authorization: `Bearer ${token}` } });
       showToast('Thank you! Rating submitted successfully.', 'success');
@@ -164,7 +165,7 @@ function NgoMyPickups() {
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 gap-3">
               <RefreshCw className="w-8 h-8 text-[#3E5F48] animate-spin" />
-              <p className="text-sm font-medium text-[#64748B]">Loading your pickups…</p>
+              <p className="text-sm font-medium text-[#64748B]">Loading your pickupsâ€¦</p>
             </div>
           ) : filtered.length === 0 ? (
             /* Empty State */
@@ -203,11 +204,11 @@ function NgoMyPickups() {
                         </div>
                         <div>
                           <h3 className="font-bold text-[#1F2D23] text-lg leading-snug">
-                            {p.foodType} — <span className="text-[#3E5F48]">{p.quantity} kg</span>
+                            {p.foodType} â€” <span className="text-[#3E5F48]">{p.quantity} kg</span>
                           </h3>
                           <p className="text-xs text-[#64748B] mt-0.5 flex items-center gap-2">
                             <span>Feeds ~{Math.round(p.quantity * 4)} people</span>
-                            <span>·</span>
+                            <span>Â·</span>
                             <span>Claimed {new Date(p.createdAt || Date.now()).toLocaleDateString()}</span>
                           </p>
                         </div>
@@ -306,7 +307,7 @@ function NgoMyPickups() {
                           {confirmingId === p._id ? (
                             <>
                               <RefreshCw className="w-4 h-4 animate-spin" />
-                              <span>Confirming Pickup…</span>
+                              <span>Confirming Pickupâ€¦</span>
                             </>
                           ) : (
                             <>
@@ -340,7 +341,7 @@ function NgoMyPickups() {
                 <div className="text-center">
                   <h3 className="font-extrabold text-[#1F2D23] text-xl">Rate Restaurant Experience</h3>
                   <p className="text-[#64748B] text-xs mt-1">
-                    {ratingListing.foodType} · {ratingListing.restaurant?.name}
+                    {ratingListing.foodType} Â· {ratingListing.restaurant?.name}
                   </p>
                 </div>
 
@@ -351,7 +352,7 @@ function NgoMyPickups() {
                   <textarea
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    placeholder="Share feedback on food quality, packaging, or pickup experience…"
+                    placeholder="Share feedback on food quality, packaging, or pickup experienceâ€¦"
                     className="w-full border border-[#E7E5E0] rounded-xl p-3 text-sm outline-none focus:border-[#3E5F48] focus:ring-2 focus:ring-[#3E5F48]/20 transition-all resize-none bg-[#F8F6F3]"
                     rows={3}
                   />
@@ -379,7 +380,7 @@ function NgoMyPickups() {
                     disabled={submittingRating}
                     className="flex-1 bg-[#3E5F48] hover:bg-[#4F6A57] text-white font-semibold text-sm py-2.5 rounded-xl shadow-xs transition-all flex items-center justify-center gap-1.5 disabled:opacity-60"
                   >
-                    {submittingRating ? 'Submitting…' : 'Submit Review'}
+                    {submittingRating ? 'Submittingâ€¦' : 'Submit Review'}
                   </button>
                 </div>
               </div>
@@ -393,3 +394,5 @@ function NgoMyPickups() {
 }
 
 export default NgoMyPickups;
+
+

@@ -1,3 +1,4 @@
+﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -11,7 +12,7 @@ function StarRow({ count, value, onChange }) {
     <div className="flex gap-1">
       {[1,2,3,4,5].map(n => (
         <button key={n} type="button" onClick={() => onChange(n)} className="text-xl transition-transform hover:scale-110">
-          {n <= value ? '⭐' : '☆'}
+          {n <= value ? 'â­' : 'â˜†'}
         </button>
       ))}
     </div>
@@ -25,7 +26,7 @@ function RatingCard({ r, onEdit, onDelete }) {
         <div>
           <div className="flex gap-0.5 mb-1">
             {[...Array(5)].map((_, i) => (
-              <span key={i} className={`text-sm ${i < r.stars ? 'text-secondary' : 'text-gray-200'}`}>★</span>
+              <span key={i} className={`text-sm ${i < r.stars ? 'text-secondary' : 'text-gray-200'}`}>â˜…</span>
             ))}
           </div>
           {r.isComplaint && (
@@ -39,7 +40,7 @@ function RatingCard({ r, onEdit, onDelete }) {
       </div>
       {r.comment && <p className="text-sm text-ink-soft mt-2 leading-relaxed">{r.comment}</p>}
       <p className="text-xs text-ink-soft/60 mt-2">
-        {r.fromId?.name || r.toId?.name} · {r.listing?.foodType} · {new Date(r.createdAt).toLocaleDateString()}
+        {r.fromId?.name || r.toId?.name} Â· {r.listing?.foodType} Â· {new Date(r.createdAt).toLocaleDateString()}
       </p>
     </div>
   );
@@ -70,9 +71,9 @@ function RestaurantRatings() {
 
   const fetchAll = async () => {
     const [r, g, p] = await Promise.all([
-      axios.get('http://localhost:5000/api/ratings/received', { headers: { Authorization: `Bearer ${token}` } }),
-      axios.get('http://localhost:5000/api/ratings/given',    { headers: { Authorization: `Bearer ${token}` } }),
-      axios.get('http://localhost:5000/api/ratings/pending',  { headers: { Authorization: `Bearer ${token}` } }),
+      axios.get(`${API_BASE_URL}/api/ratings/received`, { headers: { Authorization: `Bearer ${token}` } }),
+      axios.get(`${API_BASE_URL}/api/ratings/given`,    { headers: { Authorization: `Bearer ${token}` } }),
+      axios.get(`${API_BASE_URL}/api/ratings/pending`,  { headers: { Authorization: `Bearer ${token}` } }),
     ]);
     setReceived(r.data); setGiven(g.data); setPending(p.data);
   };
@@ -80,7 +81,7 @@ function RestaurantRatings() {
   const submitPending = async () => {
     setSubmitting(true);
     try {
-      await axios.post('http://localhost:5000/api/ratings', {
+      await axios.post(`${API_BASE_URL}/api/ratings`, {
         listingId: activePending, stars, comment, isComplaint
       }, { headers: { Authorization: `Bearer ${token}` } });
       showToast('Rating submitted!', 'success');
@@ -139,13 +140,13 @@ function RestaurantRatings() {
                 {pending.map((l) => (
                   <div key={l._id} className="bg-white border border-gray-100 rounded-xl p-4">
                     <p className="text-sm font-semibold text-ink mb-2">
-                      {l.foodType} — {l.quantity}kg, claimed by {l.claimedBy?.name}
+                      {l.foodType} â€” {l.quantity}kg, claimed by {l.claimedBy?.name}
                     </p>
                     {activePending === l._id ? (
                       <>
                         <StarRow value={stars} onChange={setStars} />
                         <textarea value={comment} onChange={e => setComment(e.target.value)}
-                          placeholder="Optional comment…"
+                          placeholder="Optional commentâ€¦"
                           className="w-full border border-gray-200 rounded-xl p-2.5 text-sm mt-3 mb-2 outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all resize-none" rows={2} />
                         <label className="flex items-center gap-2 text-xs text-ink-soft mb-3 cursor-pointer">
                           <input type="checkbox" checked={isComplaint} onChange={e => setIsComplaint(e.target.checked)} className="w-3.5 h-3.5 accent-primary" />
@@ -158,7 +159,7 @@ function RestaurantRatings() {
                       </>
                     ) : (
                       <button onClick={() => setActivePending(l._id)} className="text-xs text-primary font-semibold hover:underline">
-                        Write a review →
+                        Write a review â†’
                       </button>
                     )}
                   </div>
@@ -178,10 +179,10 @@ function RestaurantRatings() {
                 {/* Overview */}
                 <div className="flex items-center gap-6 mb-5 p-4 bg-fb-gradient rounded-xl">
                   <div className="text-center">
-                    <p className="text-5xl font-black text-primary leading-none">{received.average || '—'}</p>
+                    <p className="text-5xl font-black text-primary leading-none">{received.average || 'â€”'}</p>
                     <div className="flex gap-0.5 justify-center mt-1">
                       {[...Array(5)].map((_,i) => (
-                        <span key={i} className={`text-sm ${i < Math.round(received.average||0) ? 'text-secondary' : 'text-gray-200'}`}>★</span>
+                        <span key={i} className={`text-sm ${i < Math.round(received.average||0) ? 'text-secondary' : 'text-gray-200'}`}>â˜…</span>
                       ))}
                     </div>
                     <p className="text-xs text-ink-soft mt-1">{received.ratings.length} review{received.ratings.length !== 1 ? 's' : ''}</p>
@@ -190,7 +191,7 @@ function RestaurantRatings() {
                     {distribution.map(d => (
                       <div key={d.stars} className="flex items-center gap-2 text-xs">
                         <span className="text-ink-soft w-4 text-right">{d.stars}</span>
-                        <span className="text-secondary text-[10px]">★</span>
+                        <span className="text-secondary text-[10px]">â˜…</span>
                         <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                           <div className="h-full bg-secondary rounded-full progress-grow" style={{ width: `${d.pct}%` }} />
                         </div>
@@ -235,7 +236,7 @@ function RestaurantRatings() {
                         <div className="flex items-start justify-between">
                           <div className="flex gap-0.5">
                             {[...Array(5)].map((_,i) => (
-                              <span key={i} className={`text-sm ${i < r.stars ? 'text-secondary' : 'text-gray-200'}`}>★</span>
+                              <span key={i} className={`text-sm ${i < r.stars ? 'text-secondary' : 'text-gray-200'}`}>â˜…</span>
                             ))}
                           </div>
                           <div className="flex gap-2">
@@ -244,7 +245,7 @@ function RestaurantRatings() {
                           </div>
                         </div>
                         {r.comment && <p className="text-sm text-ink-soft mt-2">{r.comment}</p>}
-                        <p className="text-xs text-ink-soft/60 mt-1">To {r.toId?.name} · {r.listing?.foodType}</p>
+                        <p className="text-xs text-ink-soft/60 mt-1">To {r.toId?.name} Â· {r.listing?.foodType}</p>
                       </>
                     )}
                   </div>
@@ -259,3 +260,5 @@ function RestaurantRatings() {
 }
 
 export default RestaurantRatings;
+
+

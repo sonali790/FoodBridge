@@ -1,3 +1,4 @@
+﻿import { API_BASE_URL } from '../config/api';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -32,7 +33,7 @@ function AdminPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/admin/login', form);
+      const res = await axios.post(`${API_BASE_URL}/api/admin/login`, form);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', 'admin');
       showToast(`Welcome, ${res.data.admin.name}`, 'success');
@@ -63,10 +64,10 @@ function AdminPage() {
               <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-[#D9A441]/10 blur-2xl pointer-events-none" />
               <div className="relative z-10">
                 <div className="w-11 h-11 rounded-2xl bg-white border border-[#E7E5E0] shadow-xs flex items-center justify-center mx-auto mb-2.5">
-                  <span className="text-xl">🔐</span>
+                  <span className="text-xl">ðŸ”</span>
                 </div>
                 <h1 className="text-xl font-extrabold text-[#1F2D23] mb-0.5">Admin Login</h1>
-                <p className="text-[#6B7280] text-xs">Restricted access — authorised personnel only.</p>
+                <p className="text-[#6B7280] text-xs">Restricted access â€” authorised personnel only.</p>
               </div>
             </div>
 
@@ -96,7 +97,7 @@ function AdminPage() {
 
               <div className="mt-6 pt-4 border-t border-gray-100 text-center">
                 <Link to="/" className="text-xs text-ink-soft hover:text-primary transition-colors duration-150">
-                  ← Back to Home
+                  â† Back to Home
                 </Link>
               </div>
             </div>
@@ -116,3 +117,5 @@ function AdminPage() {
 }
 
 export default AdminPage;
+
+

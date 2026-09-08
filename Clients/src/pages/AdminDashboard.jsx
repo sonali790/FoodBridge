@@ -1,3 +1,4 @@
+﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -12,7 +13,7 @@ function AdminDashboard() {
 
   useEffect(() => {
     if (!token || role !== 'admin') { navigate('/admin'); return; }
-    axios.get('http://localhost:5000/api/admin/stats', {
+    axios.get(`${API_BASE_URL}/api/admin/stats`, {
       headers: { Authorization: `Bearer ${token}` }
     }).then((res) => setStats(res.data)).catch(console.error);
   }, []);
@@ -20,19 +21,19 @@ function AdminDashboard() {
   const cards = [
     {
       icon: IconStoreNav,
-      value: stats.restaurantCount ?? '—',
+      value: stats.restaurantCount ?? 'â€”',
       label: 'Total Restaurants',
       sub: 'Registered on platform',
     },
     {
       icon: IconHandshakeNav,
-      value: stats.ngoCount ?? '—',
+      value: stats.ngoCount ?? 'â€”',
       label: 'Total NGOs',
       sub: 'Active organizations',
     },
     {
       icon: IconPackageNav,
-      value: stats.activeListings ?? '—',
+      value: stats.activeListings ?? 'â€”',
       label: 'Active Listings',
       sub: 'Live right now',
     },
@@ -102,3 +103,5 @@ function AdminDashboard() {
 }
 
 export default AdminDashboard;
+
+
