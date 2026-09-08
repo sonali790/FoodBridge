@@ -95,7 +95,7 @@ function NgoRatings() {
   const saveEdit = async (id) => {
     setSaving(true);
     try {
-      await axios.patch(`http://localhost:5000/api/ratings/${id}`, { stars: editStars, comment: editComment }, {
+      await axios.patch(`${API_BASE_URL}/api/ratings/${id}`, { stars: editStars, comment: editComment }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       showToast('Rating updated', 'success'); setEditing(null); fetchAll();
@@ -108,7 +108,7 @@ function NgoRatings() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/ratings/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`${API_BASE_URL}/api/ratings/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       showToast('Rating deleted', 'success'); fetchAll();
     } catch (err) {
       showToast(err.response?.data?.message || 'Failed to delete rating', 'error');
@@ -382,5 +382,6 @@ function NgoRatings() {
 }
 
 export default NgoRatings;
+
 
 

@@ -56,7 +56,7 @@ function NgoBrowseListings() {
   const handleClaim = async (id, foodType) => {
     setClaimingId(id);
     try {
-      await axios.post(`http://localhost:5000/api/listings/${id}/claim`, {}, {
+      await axios.post(`${API_BASE_URL}/api/listings/${id}/claim`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       showToast(`Successfully claimed ${foodType}! ðŸŽ‰`, 'success');
@@ -316,5 +316,6 @@ function NgoBrowseListings() {
 }
 
 export default NgoBrowseListings;
+
 
 

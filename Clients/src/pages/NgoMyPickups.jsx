@@ -75,7 +75,7 @@ function NgoMyPickups() {
   const handleConfirm = async (id) => {
     setConfirmingId(id);
     try {
-      await axios.post(`http://localhost:5000/api/listings/${id}/confirm-pickup`, {}, {
+      await axios.post(`${API_BASE_URL}/api/listings/${id}/confirm-pickup`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       showToast('Pickup confirmed! Thank you for reducing food waste. ðŸŽ‰', 'success');
@@ -394,5 +394,6 @@ function NgoMyPickups() {
 }
 
 export default NgoMyPickups;
+
 
 

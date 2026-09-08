@@ -85,7 +85,7 @@ function RestaurantPostFood() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/listings/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`${API_BASE_URL}/api/listings/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       showToast('Listing deleted', 'success');
       fetchListings();
     } catch (err) {
@@ -289,5 +289,6 @@ function RestaurantPostFood() {
 }
 
 export default RestaurantPostFood;
+
 
 

@@ -37,7 +37,7 @@ function RestaurantNotifications() {
 
   const handleClick = async (n) => {
     if (n.read) return;
-    await axios.patch(`http://localhost:5000/api/notifications/${n._id}/read`, {}, {
+    await axios.patch(`${API_BASE_URL}/api/notifications/${n._id}/read`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setNotifications((prev) => prev.map((item) => item._id === n._id ? { ...item, read: true } : item));
@@ -46,7 +46,7 @@ function RestaurantNotifications() {
   const markAllRead = async () => {
     const unread = notifications.filter(n => !n.read);
     await Promise.all(unread.map(n =>
-      axios.patch(`http://localhost:5000/api/notifications/${n._id}/read`, {}, {
+      axios.patch(`${API_BASE_URL}/api/notifications/${n._id}/read`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       })
     ));
@@ -151,5 +151,6 @@ function RestaurantNotifications() {
 }
 
 export default RestaurantNotifications;
+
 
 

@@ -58,7 +58,7 @@ function ForgotPasswordFlow({ role }) {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`http://localhost:5000/api/${role}/forgot-password`, { email });
+      await axios.post(`${API_BASE_URL}/api/${role}/forgot-password`, { email });
       showToast('If that email is registered, a reset code has been sent.', 'success');
       setStep('reset');
     } catch (err) {
@@ -80,7 +80,7 @@ function ForgotPasswordFlow({ role }) {
     }
     setLoading(true);
     try {
-      await axios.post(`http://localhost:5000/api/${role}/reset-password`, {
+      await axios.post(`${API_BASE_URL}/api/${role}/reset-password`, {
         email, otp, newPassword,
       });
       setStep('done');
@@ -205,4 +205,5 @@ function ForgotPasswordFlow({ role }) {
 }
 
 export default ForgotPasswordFlow;
+
 
