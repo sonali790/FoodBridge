@@ -25,8 +25,9 @@ app.use('/api/admin', adminAuthRoutes);
 app.use('/api/listings', listingRoutes);
 app.use('/api/ratings', ratingRoutes);
 
-mongoose.connect('mongodb://localhost:27017/foodbridge')
-  .then(() => console.log('MongoDB connected'))
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/foodbridge';
+mongoose.connect(MONGO_URI)
+  .then(() => console.log('MongoDB connected successfully'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
 const PORT = process.env.PORT || 5000;
