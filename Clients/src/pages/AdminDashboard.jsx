@@ -1,4 +1,4 @@
-﻿import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -21,19 +21,19 @@ function AdminDashboard() {
   const cards = [
     {
       icon: IconStoreNav,
-      value: stats.restaurantCount ?? 'â€”',
+      value: stats.restaurantCount ?? '—',
       label: 'Total Restaurants',
       sub: 'Registered on platform',
     },
     {
       icon: IconHandshakeNav,
-      value: stats.ngoCount ?? 'â€”',
+      value: stats.ngoCount ?? '—',
       label: 'Total NGOs',
       sub: 'Active organizations',
     },
     {
       icon: IconPackageNav,
-      value: stats.activeListings ?? 'â€”',
+      value: stats.activeListings ?? '—',
       label: 'Active Listings',
       sub: 'Live right now',
     },

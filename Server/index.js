@@ -26,8 +26,27 @@ app.use('/api/listings', listingRoutes);
 app.use('/api/ratings', ratingRoutes);
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/foodbridge';
+const bcrypt = require('bcrypt');
+const Admin = require('./models/Admin');
+
 mongoose.connect(MONGO_URI)
-  .then(() => console.log('MongoDB connected successfully'))
+  .then(async () => {
+    console.log('MongoDB connected successfully');
+    try {
+      const existing = await Admin.findOne({ email: 'admin@foodbridge.com' });
+      if (!existing) {
+        const hashedPassword = await bcrypt.hash('admin123', 10);
+        await Admin.create({
+          name: 'FoodBridge Admin',
+          email: 'admin@foodbridge.com',
+          password: hashedPassword
+        });
+        console.log('Default admin seeded: admin@foodbridge.com');
+      }
+    } catch (seedErr) {
+      console.log('Admin seed check error:', seedErr.message);
+    }
+  })
   .catch((err) => console.error('MongoDB connection error:', err));
 
 const PORT = process.env.PORT || 5000;

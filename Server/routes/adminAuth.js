@@ -27,7 +27,7 @@ const Restaurant = require('../models/Restaurant');
 const NGO = require('../models/NGO');
 const Listing = require('../models/Listing');
 const verifyToken = require('../middleware/auth');
-module.exports = router;
+
 // STATS (admin only)
 router.get('/stats', verifyToken, async (req, res) => {
   try {
@@ -44,3 +44,5 @@ router.get('/stats', verifyToken, async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+
+module.exports = router;
