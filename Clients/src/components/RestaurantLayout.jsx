@@ -184,8 +184,8 @@ function RestaurantLayout({ children }) {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(v => !v)}
-              className="p-2 rounded-xl bg-gray-100 text-ink hover:bg-gray-200 transition-colors flex items-center justify-center"
-              aria-label="Open sidebar"
+              className="p-2 rounded-xl bg-primary text-white hover:bg-[#2D4535] transition-colors flex items-center justify-center shadow-xs active:scale-95"
+              aria-label="Open sidebar menu"
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
                 <line x1="2" y1="5" x2="18" y2="5"/><line x1="2" y1="10" x2="18" y2="10"/><line x1="2" y1="15" x2="18" y2="15"/>
@@ -196,9 +196,6 @@ function RestaurantLayout({ children }) {
               <span className="text-sm font-bold text-ink truncate">Restaurant Panel</span>
             </div>
           </div>
-          <span className="text-[11px] text-primary font-bold bg-primary-light px-2.5 py-1 rounded-full">
-            Menu
-          </span>
         </div>
         <div className="p-4 sm:p-6 md:p-8 pb-16 md:pb-20 max-w-7xl mx-auto">{children}</div>
       </main>
