@@ -9,6 +9,7 @@ const ngoAuthRoutes = require('./routes/ngoAuth');
 const adminAuthRoutes = require('./routes/adminAuth');
 const listingRoutes = require('./routes/listingRoutes');
 const ratingRoutes = require('./routes/ratingRoutes');
+const complaintRoutes = require('./routes/complaintRoutes');
 
 const app = express();
 app.use(cors());
@@ -24,6 +25,7 @@ app.use('/api/ngo', ngoAuthRoutes);
 app.use('/api/admin', adminAuthRoutes);
 app.use('/api/listings', listingRoutes);
 app.use('/api/ratings', ratingRoutes);
+app.use('/api/complaints', complaintRoutes);
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/foodbridge';
 const bcrypt = require('bcrypt');

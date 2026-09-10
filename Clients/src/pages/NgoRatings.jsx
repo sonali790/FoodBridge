@@ -11,6 +11,7 @@ import {
   RefreshCw,
   AlertTriangle
 } from 'lucide-react';
+import ComplaintsList from '../components/ComplaintsList';
 
 function StarPicker({ value, onChange }) {
   return (
@@ -46,6 +47,7 @@ function NgoRatings() {
   const [submitting, setSubmitting] = useState(false);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [mainTab, setMainTab] = useState('reviews'); // 'reviews' | 'complaints'
 
   const token = localStorage.getItem('token');
   const role  = localStorage.getItem('role');
@@ -137,11 +139,40 @@ function NgoRatings() {
               Ratings & Reviews
             </h1>
             <p className="text-[#64748B] text-base mt-1">
-              Feedback received from partner restaurants and ratings you have submitted.
+              Feedback received from partner restaurants, ratings you have submitted, and dispute tracking.
             </p>
+
+            {/* Navigation Tabs */}
+            <div className="flex items-center gap-2 mt-5">
+              <button
+                onClick={() => setMainTab('reviews')}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                  mainTab === 'reviews'
+                    ? 'bg-[#3E5F48] text-white shadow-xs'
+                    : 'bg-white border border-[#E7E5E0] text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                ⭐ Community Reviews
+              </button>
+              <button
+                onClick={() => setMainTab('complaints')}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                  mainTab === 'complaints'
+                    ? 'bg-red-600 text-white shadow-xs'
+                    : 'bg-white border border-[#E7E5E0] text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                ⚠️ Complaints & Disputes
+              </button>
+            </div>
           </div>
 
-          {/* Main Grid */}
+          {mainTab === 'complaints' ? (
+            <div className="max-w-4xl">
+              <ComplaintsList />
+            </div>
+          ) : (
+          /* Main Grid */
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             {/* Left 2 Cols: Overview & Reviews Received */}
@@ -373,6 +404,7 @@ function NgoRatings() {
             </div>
 
           </div>
+          )}
 
         </div>
       </PageTransition>

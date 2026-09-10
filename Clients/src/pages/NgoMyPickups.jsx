@@ -13,8 +13,10 @@ import {
   Sparkles,
   RefreshCw,
   Building2,
-  AlertCircle
+  AlertCircle,
+  AlertTriangle
 } from 'lucide-react';
+import ComplaintModal from '../components/ComplaintModal';
 
 const STAGES = ['Notified', 'Claimed', 'Picked Up'];
 
@@ -47,6 +49,7 @@ function NgoMyPickups() {
   const [isComplaint, setIsComplaint] = useState(false);
   const [confirmingId, setConfirmingId] = useState(null);
   const [submittingRating, setSubmittingRating] = useState(false);
+  const [complaintListing, setComplaintListing] = useState(null);
   const [filter, setFilter] = useState('all'); // 'all' | 'active' | 'done'
 
   const token = localStorage.getItem('token');
@@ -298,33 +301,52 @@ function NgoMyPickups() {
                     {/* Bottom Action Row */}
                     <div className="pt-2">
                       {p.status === 'Claimed' && (
-                        <button
-                          onClick={() => handleConfirm(p._id)}
-                          disabled={confirmingId === p._id}
-                          className="w-full bg-[#3E5F48] hover:bg-[#4F6A57] text-white font-semibold text-sm py-3 px-4 rounded-xl shadow-xs transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-60"
-                        >
-                          {confirmingId === p._id ? (
-                            <>
-                              <RefreshCw className="w-4 h-4 animate-spin" />
-                              <span>Confirming Pickup…</span>
-                            </>
-                          ) : (
-                            <>
-                              <CheckCircle2 className="w-4 h-4" />
-                              <span>Confirm Pickup Completed</span>
-                            </>
-                          )}
-                        </button>
+                        <div className="space-y-2">
+                          <button
+                            onClick={() => handleConfirm(p._id)}
+                            disabled={confirmingId === p._id}
+                            className="w-full bg-[#3E5F48] hover:bg-[#4F6A57] text-white font-semibold text-sm py-3 px-4 rounded-xl shadow-xs transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-60"
+                          >
+                            {confirmingId === p._id ? (
+                              <>
+                                <RefreshCw className="w-4 h-4 animate-spin" />
+                                <span>Confirming Pickup…</span>
+                              </>
+                            ) : (
+                              <>
+                                <CheckCircle2 className="w-4 h-4" />
+                                <span>Confirm Pickup Completed</span>
+                              </>
+                            )}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setComplaintListing(p)}
+                            className="w-full text-xs text-red-600 hover:text-red-700 font-semibold py-1.5 flex items-center justify-center gap-1.5 hover:underline"
+                          >
+                            <AlertTriangle className="w-3.5 h-3.5" />
+                            <span>Issue with pickup? Report to Admin</span>
+                          </button>
+                        </div>
                       )}
 
                       {p.status === 'Picked Up' && (
-                        <button
-                          onClick={() => setRatingListing(p)}
-                          className="w-full border border-[#3E5F48] text-[#3E5F48] hover:bg-[#E8F0E8] font-semibold text-sm py-2.5 px-4 rounded-xl transition-all duration-150 flex items-center justify-center gap-2"
-                        >
-                          <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-                          <span>Rate Restaurant Experience</span>
-                        </button>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          <button
+                            onClick={() => setRatingListing(p)}
+                            className="w-full border border-[#3E5F48] text-[#3E5F48] hover:bg-[#E8F0E8] font-semibold text-xs py-2.5 px-3 rounded-xl transition-all duration-150 flex items-center justify-center gap-1.5"
+                          >
+                            <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+                            <span>Rate Restaurant</span>
+                          </button>
+                          <button
+                            onClick={() => setComplaintListing(p)}
+                            className="w-full border border-red-200 text-red-600 hover:bg-red-50 font-semibold text-xs py-2.5 px-3 rounded-xl transition-all duration-150 flex items-center justify-center gap-1.5"
+                          >
+                            <AlertTriangle className="w-3.5 h-3.5" />
+                            <span>Report Issue</span>
+                          </button>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -385,6 +407,14 @@ function NgoMyPickups() {
               </div>
             </div>
           )}
+
+          {/* Dedicated Complaint Modal */}
+          <ComplaintModal
+            isOpen={!!complaintListing}
+            onClose={() => setComplaintListing(null)}
+            listing={complaintListing}
+            onSubmitted={() => fetchPickups()}
+          />
 
         </div>
       </PageTransition>

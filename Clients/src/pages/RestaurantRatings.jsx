@@ -5,6 +5,8 @@ import RestaurantLayout from '../components/RestaurantLayout';
 import Button from '../components/Button';
 import PageTransition from '../components/PageTransition';
 import { useToast } from '../components/ToastContext';
+import ComplaintsList from '../components/ComplaintsList';
+import ComplaintModal from '../components/ComplaintModal';
 
 function StarRow({ count, value, onChange }) {
   return (
@@ -60,6 +62,8 @@ function RestaurantRatings() {
   const [editComment, setEditComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [saving, setSaving]       = useState(false);
+  const [mainTab, setMainTab]     = useState('reviews'); // 'reviews' | 'complaints'
+  const [complaintListing, setComplaintListing] = useState(null);
   const token = localStorage.getItem('token');
   const role  = localStorage.getItem('role');
 
@@ -124,9 +128,38 @@ function RestaurantRatings() {
       <PageTransition>
         <div className="mb-6">
           <h1 className="text-2xl font-extrabold text-ink mb-1">Ratings & Reviews</h1>
-          <p className="text-ink-soft text-sm">What NGOs have said about you, and your reviews for them.</p>
+          <p className="text-ink-soft text-sm">What NGOs have said about you, your reviews for them, and dispute tracking.</p>
+
+          {/* Navigation Tabs */}
+          <div className="flex items-center gap-2 mt-4">
+            <button
+              onClick={() => setMainTab('reviews')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                mainTab === 'reviews'
+                  ? 'bg-[#3E5F48] text-white shadow-xs'
+                  : 'bg-white border border-[#E7E5E0] text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              ⭐ Ratings & Feedback
+            </button>
+            <button
+              onClick={() => setMainTab('complaints')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                mainTab === 'complaints'
+                  ? 'bg-red-600 text-white shadow-xs'
+                  : 'bg-white border border-[#E7E5E0] text-gray-600 hover:bg-gray-50'
+              }`}
+            >
+              ⚠️ Complaints & Disputes
+            </button>
+          </div>
         </div>
 
+        {mainTab === 'complaints' ? (
+          <div className="max-w-2xl">
+            <ComplaintsList />
+          </div>
+        ) : (
         <div className="max-w-2xl space-y-6">
           {/* Pending reviews */}
           {pending.length > 0 && (
@@ -253,6 +286,15 @@ function RestaurantRatings() {
             )}
           </div>
         </div>
+        )}
+
+        {/* Complaint Modal */}
+        <ComplaintModal
+          isOpen={!!complaintListing}
+          onClose={() => setComplaintListing(null)}
+          listing={complaintListing}
+          onSubmitted={() => fetchAll()}
+        />
       </PageTransition>
     </RestaurantLayout>
   );
