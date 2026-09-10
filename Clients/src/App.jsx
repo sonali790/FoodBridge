@@ -21,6 +21,7 @@ import NgoMyPickups from './pages/NgoMyPickups';
 import RestaurantRatings from './pages/RestaurantRatings';
 import NgoRatings from './pages/NgoRatings';
 import NgoProfile from './pages/NgoProfile';
+import PickupTracker from './pages/PickupTracker';
 
 import { useLocation } from 'react-router-dom';
 
@@ -57,7 +58,9 @@ function App() {
           <Route path="/ngo/notifications" element={<NgoNotifications />} />
           <Route path="/ngo/pickups" element={<NgoMyPickups />} />
           <Route path="/restaurant/ratings" element={<RestaurantRatings />} />
+          <Route path="/restaurant/tracker" element={<PickupTracker role="restaurant" />} />
           <Route path="/ngo/ratings" element={<NgoRatings />} />
+          <Route path="/ngo/tracker" element={<PickupTracker role="ngo" />} />
           <Route path="/ngo/profile" element={<NgoProfile />} />
         </Routes>
       </main>

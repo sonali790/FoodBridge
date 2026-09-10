@@ -53,7 +53,7 @@ function NgoLayout({ children }) {
     { label: 'Browse Listings',   path: '/ngo/browse',        icon: Search },
     { label: 'Notifications',     path: '/ngo/notifications', icon: Bell,  badge: unreadCount },
     { label: 'My Pickups',        path: '/ngo/pickups',       icon: Truck },
-    { label: 'Tracker',           active: false,              icon: LayoutDashboard },
+    { label: 'Pickup Tracker',    path: '/ngo/tracker',       icon: Truck },
     { label: 'Ratings & Reviews', path: '/ngo/ratings',       icon: Star,  badge: pendingRatings },
     { label: 'Profile',           path: '/ngo/profile',       icon: User },
   ];

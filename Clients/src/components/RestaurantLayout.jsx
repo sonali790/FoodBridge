@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
-  IconGrid, IconPlusCircle, IconBellNav, IconStarNav, IconUserNav, IconLogout
+  IconGrid, IconPlusCircle, IconBellNav, IconStarNav, IconUserNav, IconLogout, IconTruckNav
 } from './NavIcons';
 
 function MenuToggle({ open, onClick }) {
@@ -62,7 +62,7 @@ function RestaurantLayout({ children }) {
     { label: 'Post Food',       path: '/restaurant/post',          icon: IconPlusCircle },
     { label: 'Notifications',   path: '/restaurant/notifications', icon: IconBellNav,  badge: unreadCount },
     { label: 'My Listings',     active: false,                     icon: IconGrid },
-    { label: 'Tracker',         active: false,                     icon: IconGrid },
+    { label: 'Pickup Tracker',  path: '/restaurant/tracker',       icon: IconTruckNav },
     { label: 'Ratings',         path: '/restaurant/ratings',       icon: IconStarNav,  badge: pendingRatings },
     { label: 'Profile',         active: false,                     icon: IconUserNav },
   ];
