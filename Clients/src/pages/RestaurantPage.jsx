@@ -1,4 +1,3 @@
-﻿import { API_BASE_URL } from '../config/api';
 import { useState } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -53,7 +52,7 @@ function RestaurantPage() {
     setLoading(true);
     try {
       if (isLogin) {
-        const res = await axios.post(`${API_BASE_URL}/api/restaurant/login`, {
+        const res = await axios.post('/api/restaurant/login', {
           email: form.email, password: form.password
         });
         localStorage.setItem('token', res.data.token);
@@ -62,7 +61,7 @@ function RestaurantPage() {
         showToast(`Welcome back, ${res.data.restaurant.name}!`, 'success');
         navigate('/restaurant/dashboard');
       } else {
-        const res = await axios.post(`${API_BASE_URL}/api/restaurant/register`, form);
+        const res = await axios.post('/api/restaurant/register', form);
         showToast(res.data.message, 'success');
         setIsLogin(true);
       }
@@ -83,13 +82,13 @@ function RestaurantPage() {
 
           <div className="md:col-span-7 p-6 md:p-8 bg-white">
             <Link to="/" className="inline-flex items-center gap-1 text-ink-soft text-xs hover:text-primary transition-colors duration-150 mb-4">
-              â† Back to home
+              ← Back to home
             </Link>
 
             {/* Header */}
             <div className="mb-5">
               <div className="w-10 h-10 rounded-xl bg-primary-light flex items-center justify-center mb-2">
-                <span className="text-xl">ðŸ½ï¸</span>
+                <span className="text-xl">🍽️</span>
               </div>
               <h1 className="text-2xl font-extrabold text-ink leading-tight">
                 Restaurant {isLogin ? 'Login' : 'Registration'}
@@ -174,5 +173,3 @@ function RestaurantPage() {
 }
 
 export default RestaurantPage;
-
-

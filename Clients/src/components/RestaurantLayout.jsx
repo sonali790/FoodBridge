@@ -1,4 +1,3 @@
-﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -35,13 +34,13 @@ function RestaurantLayout({ children }) {
 
   const fetchBadges = () => {
     if (!token) return;
-    axios.get(`${API_BASE_URL}/api/notifications/mine`, {
+    axios.get('/api/notifications/mine', {
       headers: { Authorization: `Bearer ${token}` }
     }).then((res) => {
       setUnreadCount(res.data.filter((n) => !n.read).length);
     }).catch(() => {});
 
-    axios.get(`${API_BASE_URL}/api/ratings/badge-count`, {
+    axios.get('/api/ratings/badge-count', {
       headers: { Authorization: `Bearer ${token}` }
     }).then((res) => {
       setPendingRatings(res.data.total);
@@ -164,7 +163,7 @@ function RestaurantLayout({ children }) {
         />
       )}
 
-      {/* Sidebar â€” desktop always visible, mobile slide-in */}
+      {/* Sidebar — desktop always visible, mobile slide-in */}
       <aside
         className={`
           flex-shrink-0 w-64 md:w-60 flex flex-col
@@ -203,5 +202,3 @@ function RestaurantLayout({ children }) {
 }
 
 export default RestaurantLayout;
-
-

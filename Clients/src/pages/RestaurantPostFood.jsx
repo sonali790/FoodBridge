@@ -1,4 +1,3 @@
-﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -19,7 +18,7 @@ function StarPicker({ value, onChange }) {
     <div className="flex gap-1">
       {[1,2,3,4,5].map(n => (
         <button key={n} type="button" onClick={() => onChange(n)} className="text-2xl transition-transform duration-150 hover:scale-110" aria-label={`${n} star${n>1?'s':''}`}>
-          {n <= value ? 'â­' : 'â˜†'}
+          {n <= value ? '⭐' : '☆'}
         </button>
       ))}
     </div>
@@ -53,7 +52,7 @@ function RestaurantPostFood() {
 
   const fetchListings = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/listings/mine`, {
+      const res = await axios.get('/api/listings/mine', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setListings(res.data);
@@ -67,7 +66,7 @@ function RestaurantPostFood() {
   const handlePost = async () => {
     setPosting(true);
     try {
-      await axios.post(`${API_BASE_URL}/api/listings`, { foodType, quantity, freshFor }, {
+      await axios.post('/api/listings', { foodType, quantity, freshFor }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setQuantity(1);
@@ -85,7 +84,7 @@ function RestaurantPostFood() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_BASE_URL}/api/listings/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`/api/listings/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       showToast('Listing deleted', 'success');
       fetchListings();
     } catch (err) {
@@ -96,7 +95,7 @@ function RestaurantPostFood() {
   const submitRating = async () => {
     setSubmittingRating(true);
     try {
-      await axios.post(`${API_BASE_URL}/api/ratings`, {
+      await axios.post('/api/ratings', {
         listingId: ratingListing._id, stars, comment, isComplaint
       }, { headers: { Authorization: `Bearer ${token}` } });
       showToast('Rating submitted!', 'success');
@@ -118,16 +117,16 @@ function RestaurantPostFood() {
 
         <div className="mb-6">
           <h1 className="text-2xl font-extrabold text-ink mb-1">Post Surplus Food</h1>
-          <p className="text-ink-soft text-sm">A few taps â€” and your food helps someone today.</p>
+          <p className="text-ink-soft text-sm">A few taps — and your food helps someone today.</p>
         </div>
 
         {/* Success banner */}
         {showThanks && (
           <div className="fade-in-up mb-6 bg-gradient-to-r from-primary-light to-primary-light/50 border border-primary/30 rounded-2xl px-5 py-4 flex items-center gap-3 max-w-2xl">
-            <span className="text-2xl">ðŸŽ‰</span>
+            <span className="text-2xl">🎉</span>
             <div>
               <p className="text-primary-dark font-bold text-sm">Listing posted successfully!</p>
-              <p className="text-primary-dark/70 text-xs mt-0.5">Thank you for donating food. You're making a real difference. ðŸ’š</p>
+              <p className="text-primary-dark/70 text-xs mt-0.5">Thank you for donating food. You're making a real difference. 💚</p>
             </div>
           </div>
         )}
@@ -168,7 +167,7 @@ function RestaurantPostFood() {
                   onClick={() => setQuantity(q => Math.max(0.5, q - 0.5))}
                   className="w-11 h-11 rounded-xl bg-fb-gradient hover:bg-primary-light text-xl font-bold text-primary transition-all duration-150 hover:scale-105 active:scale-95 border border-gray-100 shadow-sm"
                 >
-                  âˆ’
+                  −
                 </button>
                 <div className="flex-1 text-center">
                   <p className="text-2xl font-black text-ink">{quantity} kg</p>
@@ -209,7 +208,7 @@ function RestaurantPostFood() {
             </div>
 
             <Button variant="primary" loading={posting} onClick={handlePost} className="w-full glow-green" size="lg">
-              {posting ? 'Postingâ€¦' : 'Post Listing ðŸ½ï¸'}
+              {posting ? 'Posting…' : 'Post Listing 🍽️'}
             </Button>
           </div>
 
@@ -224,11 +223,11 @@ function RestaurantPostFood() {
 
             {loadingListings ? (
               <div className="flex items-center gap-2 text-ink-soft text-sm py-8">
-                <Spinner size={18} /> Loadingâ€¦
+                <Spinner size={18} /> Loading…
               </div>
             ) : listings.length === 0 ? (
               <div className="bg-white border border-gray-100 shadow-fb-card rounded-2xl p-8 text-center">
-                <p className="text-ink-soft text-sm">No listings yet â€” post your first one!</p>
+                <p className="text-ink-soft text-sm">No listings yet — post your first one!</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
@@ -268,9 +267,9 @@ function RestaurantPostFood() {
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
             <div className="bg-white rounded-3xl p-7 w-full max-w-sm fade-in-up shadow-premium">
               <h3 className="font-extrabold text-ink text-lg mb-1">Rate this NGO</h3>
-              <p className="text-ink-soft text-sm mb-5">{ratingListing.foodType} Â· {ratingListing.quantity}kg</p>
+              <p className="text-ink-soft text-sm mb-5">{ratingListing.foodType} · {ratingListing.quantity}kg</p>
               <StarPicker value={stars} onChange={setStars} />
-              <textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Optional commentâ€¦"
+              <textarea value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Optional comment…"
                 className="w-full border border-gray-200 rounded-xl p-3 text-sm mt-4 mb-3 outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-200 resize-none" rows={3} />
               <label className="flex items-center gap-2.5 text-sm text-ink-soft mb-5 cursor-pointer">
                 <input type="checkbox" checked={isComplaint} onChange={(e) => setIsComplaint(e.target.checked)} className="w-4 h-4 accent-primary" />
@@ -289,6 +288,3 @@ function RestaurantPostFood() {
 }
 
 export default RestaurantPostFood;
-
-
-

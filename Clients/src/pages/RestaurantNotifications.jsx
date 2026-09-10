@@ -1,4 +1,3 @@
-﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -29,7 +28,7 @@ function RestaurantNotifications() {
   }, []);
 
   const fetchNotifications = async () => {
-    const res = await axios.get(`${API_BASE_URL}/api/notifications/mine`, {
+    const res = await axios.get('/api/notifications/mine', {
       headers: { Authorization: `Bearer ${token}` }
     });
     setNotifications(res.data);
@@ -37,7 +36,7 @@ function RestaurantNotifications() {
 
   const handleClick = async (n) => {
     if (n.read) return;
-    await axios.patch(`${API_BASE_URL}/api/notifications/${n._id}/read`, {}, {
+    await axios.patch(`/api/notifications/${n._id}/read`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setNotifications((prev) => prev.map((item) => item._id === n._id ? { ...item, read: true } : item));
@@ -46,7 +45,7 @@ function RestaurantNotifications() {
   const markAllRead = async () => {
     const unread = notifications.filter(n => !n.read);
     await Promise.all(unread.map(n =>
-      axios.patch(`${API_BASE_URL}/api/notifications/${n._id}/read`, {}, {
+      axios.patch(`/api/notifications/${n._id}/read`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       })
     ));
@@ -151,6 +150,3 @@ function RestaurantNotifications() {
 }
 
 export default RestaurantNotifications;
-
-
-

@@ -1,4 +1,3 @@
-﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -42,7 +41,7 @@ function NgoNotifications() {
   const fetchNotifications = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/notifications/mine`, {
+      const res = await axios.get('/api/notifications/mine', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setNotifications(res.data || []);
@@ -56,7 +55,7 @@ function NgoNotifications() {
   const handleClick = async (n) => {
     if (n.read) return;
     try {
-      await axios.patch(`${API_BASE_URL}/api/notifications/${n._id}/read`, {}, {
+      await axios.patch(`/api/notifications/${n._id}/read`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setNotifications((prev) => prev.map((item) => item._id === n._id ? { ...item, read: true } : item));
@@ -69,7 +68,7 @@ function NgoNotifications() {
     const unread = notifications.filter(n => !n.read);
     try {
       await Promise.all(unread.map(n =>
-        axios.patch(`${API_BASE_URL}/api/notifications/${n._id}/read`, {}, {
+        axios.patch(`/api/notifications/${n._id}/read`, {}, {
           headers: { Authorization: `Bearer ${token}` }
         })
       ));
@@ -145,7 +144,7 @@ function NgoNotifications() {
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 gap-3">
               <RefreshCw className="w-8 h-8 text-[#3E5F48] animate-spin" />
-              <p className="text-sm font-medium text-[#64748B]">Loading notificationsâ€¦</p>
+              <p className="text-sm font-medium text-[#64748B]">Loading notifications…</p>
             </div>
           ) : filtered.length === 0 ? (
             /* Empty State */
@@ -209,6 +208,3 @@ function NgoNotifications() {
 }
 
 export default NgoNotifications;
-
-
-

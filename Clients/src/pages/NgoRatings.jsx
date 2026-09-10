@@ -1,4 +1,3 @@
-﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -24,7 +23,7 @@ function StarPicker({ value, onChange }) {
           className="text-xl transition-transform hover:scale-110 focus:outline-none"
           aria-label={`${n} star${n > 1 ? 's' : ''}`}
         >
-          {n <= value ? 'â­' : 'â˜†'}
+          {n <= value ? '⭐' : '☆'}
         </button>
       ))}
     </div>
@@ -60,9 +59,9 @@ function NgoRatings() {
     setLoading(true);
     try {
       const [r, g, p] = await Promise.all([
-        axios.get(`${API_BASE_URL}/api/ratings/received`, { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get(`${API_BASE_URL}/api/ratings/given`,    { headers: { Authorization: `Bearer ${token}` } }),
-        axios.get(`${API_BASE_URL}/api/ratings/pending`,  { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get('/api/ratings/received', { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get('/api/ratings/given',    { headers: { Authorization: `Bearer ${token}` } }),
+        axios.get('/api/ratings/pending',  { headers: { Authorization: `Bearer ${token}` } }),
       ]);
       setReceived(r.data || { ratings: [], average: null });
       setGiven(g.data || []);
@@ -77,7 +76,7 @@ function NgoRatings() {
   const submitPending = async () => {
     setSubmitting(true);
     try {
-      await axios.post(`${API_BASE_URL}/api/ratings`, {
+      await axios.post('/api/ratings', {
         listingId: activePending, stars, comment, isComplaint
       }, { headers: { Authorization: `Bearer ${token}` } });
       showToast('Rating submitted successfully!', 'success');
@@ -95,7 +94,7 @@ function NgoRatings() {
   const saveEdit = async (id) => {
     setSaving(true);
     try {
-      await axios.patch(`${API_BASE_URL}/api/ratings/${id}`, { stars: editStars, comment: editComment }, {
+      await axios.patch(`/api/ratings/${id}`, { stars: editStars, comment: editComment }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       showToast('Rating updated', 'success'); setEditing(null); fetchAll();
@@ -108,7 +107,7 @@ function NgoRatings() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_BASE_URL}/api/ratings/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`/api/ratings/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       showToast('Rating deleted', 'success'); fetchAll();
     } catch (err) {
       showToast(err.response?.data?.message || 'Failed to delete rating', 'error');
@@ -170,7 +169,7 @@ function NgoRatings() {
                             <textarea
                               value={comment}
                               onChange={(e) => setComment(e.target.value)}
-                              placeholder="Write a feedback commentâ€¦"
+                              placeholder="Write a feedback comment…"
                               className="w-full border border-[#E7E5E0] rounded-xl p-3 text-xs outline-none focus:border-[#3E5F48] focus:ring-2 focus:ring-[#3E5F48]/20 bg-[#F8F6F3] resize-none"
                               rows={2}
                             />
@@ -195,7 +194,7 @@ function NgoRatings() {
                                 disabled={submitting}
                                 className="flex-1 bg-[#3E5F48] hover:bg-[#4F6A57] text-white font-semibold text-xs py-2 rounded-xl shadow-xs"
                               >
-                                {submitting ? 'Submittingâ€¦' : 'Submit Review'}
+                                {submitting ? 'Submitting…' : 'Submit Review'}
                               </button>
                             </div>
                           </div>
@@ -204,7 +203,7 @@ function NgoRatings() {
                             onClick={() => setActivePending(l._id)}
                             className="text-xs text-[#3E5F48] font-semibold hover:underline mt-2 inline-block"
                           >
-                            Write a review â†’
+                            Write a review →
                           </button>
                         )}
                       </div>
@@ -343,7 +342,7 @@ function NgoRatings() {
                                 disabled={saving}
                                 className="flex-1 bg-[#3E5F48] text-white rounded-lg py-1.5 font-semibold"
                               >
-                                {saving ? 'Savingâ€¦' : 'Save'}
+                                {saving ? 'Saving…' : 'Save'}
                               </button>
                             </div>
                           </div>
@@ -382,6 +381,3 @@ function NgoRatings() {
 }
 
 export default NgoRatings;
-
-
-

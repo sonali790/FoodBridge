@@ -1,4 +1,3 @@
-﻿import { API_BASE_URL } from '../config/api';
 import { useState } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -53,7 +52,7 @@ function NgoPage() {
     setLoading(true);
     try {
       if (isLogin) {
-        const res = await axios.post(`${API_BASE_URL}/api/ngo/login`, {
+        const res = await axios.post('/api/ngo/login', {
           email: form.email, password: form.password
         });
         localStorage.setItem('token', res.data.token);
@@ -62,7 +61,7 @@ function NgoPage() {
         showToast(`Welcome back, ${res.data.ngo.name}!`, 'success');
         navigate('/ngo/dashboard');
       } else {
-        const res = await axios.post(`${API_BASE_URL}/api/ngo/register`, {
+        const res = await axios.post('/api/ngo/register', {
           ...form, peopleServed: Number(form.peopleServed)
         });
         showToast(res.data.message, 'success');
@@ -85,13 +84,13 @@ function NgoPage() {
 
           <div className="md:col-span-7 p-6 md:p-8 bg-white">
             <Link to="/" className="inline-flex items-center gap-1 text-ink-soft text-xs hover:text-secondary transition-colors duration-150 mb-4">
-              â† Back to home
+              ← Back to home
             </Link>
 
             {/* Header */}
             <div className="mb-5">
               <div className="w-10 h-10 rounded-xl bg-secondary-light flex items-center justify-center mb-2">
-                <span className="text-xl">ðŸ¤</span>
+                <span className="text-xl">🤝</span>
               </div>
               <h1 className="text-2xl font-extrabold text-ink leading-tight">
                 NGO {isLogin ? 'Login' : 'Registration'}
@@ -184,5 +183,3 @@ function NgoPage() {
 }
 
 export default NgoPage;
-
-

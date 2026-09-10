@@ -1,4 +1,3 @@
-﻿import { API_BASE_URL } from '../config/api';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -12,13 +11,13 @@ import { useToast } from './ToastContext';
 
 const THEME = {
   restaurant: {
-    heroTitle: 'ðŸ½ï¸ Restaurant Password Reset',
+    heroTitle: '🍽️ Restaurant Password Reset',
     loginPath: '/restaurant?mode=login',
     accent: 'primary',
     gradient: 'from-primary-light/60 via-white to-secondary-light/50',
   },
   ngo: {
-    heroTitle: 'ðŸ¤ NGO Password Reset',
+    heroTitle: '🤝 NGO Password Reset',
     loginPath: '/ngo?mode=login',
     accent: 'secondary',
     gradient: 'from-secondary-light/60 via-white to-primary-light/50',
@@ -58,7 +57,7 @@ function ForgotPasswordFlow({ role }) {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`${API_BASE_URL}/api/${role}/forgot-password`, { email });
+      await axios.post(`/api/${role}/forgot-password`, { email });
       showToast('If that email is registered, a reset code has been sent.', 'success');
       setStep('reset');
     } catch (err) {
@@ -80,7 +79,7 @@ function ForgotPasswordFlow({ role }) {
     }
     setLoading(true);
     try {
-      await axios.post(`${API_BASE_URL}/api/${role}/reset-password`, {
+      await axios.post(`/api/${role}/reset-password`, {
         email, otp, newPassword,
       });
       setStep('done');
@@ -205,5 +204,3 @@ function ForgotPasswordFlow({ role }) {
 }
 
 export default ForgotPasswordFlow;
-
-

@@ -1,4 +1,3 @@
-﻿import { API_BASE_URL } from '../config/api';
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -31,7 +30,7 @@ function RestaurantDashboard() {
 
   useEffect(() => {
     if (!token || role !== 'restaurant') { navigate('/start/login'); return; }
-    axios.get(`${API_BASE_URL}/api/listings/mine`, {
+    axios.get('/api/listings/mine', {
       headers: { Authorization: `Bearer ${token}` }
     }).then((res) => setListings(res.data)).catch(console.error);
   }, []);
@@ -64,7 +63,7 @@ function RestaurantDashboard() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#3E5F48] animate-pulse" />
               Restaurant Dashboard
             </span>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-[#1F2D23] mb-1 leading-snug">Hello, {name} ðŸ‘‹</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-[#1F2D23] mb-1 leading-snug">Hello, {name} 👋</h1>
             <p className="text-[#6B7280] text-sm font-normal">Here's what's happening with your listings today.</p>
           </div>
         </div>
@@ -124,7 +123,7 @@ function RestaurantDashboard() {
           <div className="bg-white border border-[#E7E5E0] shadow-xs rounded-[20px] overflow-hidden">
             <div className="px-6 py-4 border-b border-[#E7E5E0] flex items-center justify-between">
               <h2 className="font-bold text-ink">Recent Listings</h2>
-              <Link to="/restaurant/post" className="text-xs text-primary font-semibold hover:underline no-underline">View all â†’</Link>
+              <Link to="/restaurant/post" className="text-xs text-primary font-semibold hover:underline no-underline">View all →</Link>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -174,5 +173,3 @@ function RestaurantDashboard() {
 }
 
 export default RestaurantDashboard;
-
-
