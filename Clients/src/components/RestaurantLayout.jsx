@@ -180,20 +180,25 @@ function RestaurantLayout({ children }) {
       {/* Main content */}
       <main className="flex-1 min-w-0" style={{ background: 'linear-gradient(135deg, #F2F7F2 0%, #FAF9F6 45%, #F7F2EB 100%)' }}>
         {/* Mobile top bar */}
-        <div className="md:hidden flex items-center justify-between px-4 py-3.5 bg-white border-b border-[#E7E5E0] shadow-xs sticky top-16 z-20">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-primary" />
-            <span className="text-sm font-bold text-ink truncate">Restaurant Panel</span>
+        <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-[#E7E5E0] shadow-xs sticky top-16 z-20">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(v => !v)}
+              className="p-2 rounded-xl bg-gray-100 text-ink hover:bg-gray-200 transition-colors flex items-center justify-center"
+              aria-label="Open sidebar"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                <line x1="2" y1="5" x2="18" y2="5"/><line x1="2" y1="10" x2="18" y2="10"/><line x1="2" y1="15" x2="18" y2="15"/>
+              </svg>
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-primary" />
+              <span className="text-sm font-bold text-ink truncate">Restaurant Panel</span>
+            </div>
           </div>
-          <button
-            onClick={() => setSidebarOpen(v => !v)}
-            className="p-2 rounded-xl bg-gray-100 text-ink hover:bg-gray-200 transition-colors"
-            aria-label="Open sidebar"
-          >
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <line x1="2" y1="5" x2="18" y2="5"/><line x1="2" y1="10" x2="18" y2="10"/><line x1="2" y1="15" x2="18" y2="15"/>
-            </svg>
-          </button>
+          <span className="text-[11px] text-primary font-bold bg-primary-light px-2.5 py-1 rounded-full">
+            Menu
+          </span>
         </div>
         <div className="p-4 sm:p-6 md:p-8 pb-16 md:pb-20 max-w-7xl mx-auto">{children}</div>
       </main>
