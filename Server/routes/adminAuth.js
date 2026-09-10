@@ -45,4 +45,37 @@ router.get('/stats', verifyToken, async (req, res) => {
   }
 });
 
+// RESET USER PASSWORD (admin only)
+router.post('/reset-user-password', verifyToken, async (req, res) => {
+  try {
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Admin access only' });
+    }
+    const { email, newPassword } = req.body;
+    if (!email || !newPassword) {
+      return res.status(400).json({ message: 'Email and newPassword are required' });
+    }
+    const cleanEmail = email.trim().toLowerCase();
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const rest = await Restaurant.findOne({ email: cleanEmail });
+    if (rest) {
+      rest.password = hashedPassword;
+      await rest.save();
+      return res.json({ message: `Password for restaurant ${rest.name} (${cleanEmail}) updated successfully.` });
+    }
+
+    const ngo = await NGO.findOne({ email: cleanEmail });
+    if (ngo) {
+      ngo.password = hashedPassword;
+      await ngo.save();
+      return res.json({ message: `Password for NGO ${ngo.name} (${cleanEmail}) updated successfully.` });
+    }
+
+    return res.status(404).json({ message: 'User not found with this email' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
+
 module.exports = router;
