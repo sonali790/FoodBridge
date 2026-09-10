@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const NGO = require('../models/NGO');
+const Restaurant = require('../models/Restaurant');
+const Admin = require('../models/Admin');
 const sendEmail = require('../utils/sendEmail');
 const { generateOtp } = require('../utils/otp');
 const { isStrongPassword } = require('../utils/passwordValidator');
@@ -11,10 +13,23 @@ const router = express.Router();
 // REGISTER
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password, location, foodTypeNeeded, peopleServed } = req.body;
+    let { name, email, password, location, foodTypeNeeded, peopleServed } = req.body;
 
-    const existing = await NGO.findOne({ email });
-    if (existing) return res.status(400).json({ message: 'Email already registered' });
+    if (!email) return res.status(400).json({ message: 'Email is required' });
+    email = email.trim().toLowerCase();
+
+    const existingNgo = await NGO.findOne({ email });
+    if (existingNgo) return res.status(400).json({ message: 'Email already registered as an NGO' });
+
+    const existingRest = await Restaurant.findOne({ email });
+    if (existingRest) {
+      return res.status(400).json({ message: 'This email is already registered as a restaurant. Please log in from the Restaurant Portal or use a different email.' });
+    }
+
+    const existingAdmin = await Admin.findOne({ email });
+    if (existingAdmin) {
+      return res.status(400).json({ message: 'This email is reserved for administration.' });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -34,10 +49,23 @@ router.post('/register', async (req, res) => {
 // LOGIN
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+
+    if (!email || !password) return res.status(400).json({ message: 'Email and password are required' });
+    email = email.trim().toLowerCase();
 
     const ngo = await NGO.findOne({ email });
-    if (!ngo) return res.status(400).json({ message: 'Invalid email or password' });
+    if (!ngo) {
+      const restaurant = await Restaurant.findOne({ email });
+      if (restaurant) {
+        return res.status(400).json({ message: 'This email is registered as a restaurant. Please sign in via the Restaurant Login.' });
+      }
+      const admin = await Admin.findOne({ email });
+      if (admin) {
+        return res.status(400).json({ message: 'This email is an Admin account. Please sign in via the Admin Login.' });
+      }
+      return res.status(400).json({ message: 'Invalid email or password' });
+    }
 
     const isMatch = await bcrypt.compare(password, ngo.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid email or password' });
@@ -55,7 +83,8 @@ router.post('/login', async (req, res) => {
 // FORGOT PASSWORD - request an OTP
 router.post('/forgot-password', async (req, res) => {
   try {
-    const { email } = req.body;
+    let { email } = req.body;
+    if (email) email = email.trim().toLowerCase();
     const ngo = await NGO.findOne({ email });
 
     // Always respond the same way whether or not the email exists, to avoid leaking registered emails
@@ -79,7 +108,8 @@ router.post('/forgot-password', async (req, res) => {
 // RESET PASSWORD - verify OTP and set new password
 router.post('/reset-password', async (req, res) => {
   try {
-    const { email, otp, newPassword } = req.body;
+    let { email, otp, newPassword } = req.body;
+    if (email) email = email.trim().toLowerCase();
 
     if (!isStrongPassword(newPassword)) {
       return res.status(400).json({ message: 'Password does not meet strength requirements' });

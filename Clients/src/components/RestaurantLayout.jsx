@@ -75,53 +75,53 @@ function RestaurantLayout({ children }) {
   const SidebarContent = () => (
     <>
       {/* Brand header */}
-      <div className="px-5 py-5 border-b border-forest-light/60 flex items-center justify-between">
+      <div className="px-5 py-5 border-b border-white/15 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center flex-shrink-0 shadow-xs">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0 shadow-sm text-white">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 9l1.5-5h15L21 9"/><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/>
               <path d="M5 9v10h14V9"/><path d="M10 19v-5h4v5"/>
             </svg>
           </div>
           <div className="min-w-0">
-            <p className="text-white text-sm font-bold leading-tight truncate">{name}</p>
-            <p className="text-primary text-[10px] font-semibold uppercase tracking-widest mt-0.5">Restaurant</p>
+            <p className="text-white text-base font-bold leading-tight truncate">{name}</p>
+            <p className="text-secondary text-xs font-bold uppercase tracking-wider mt-0.5">Restaurant Partner</p>
           </div>
         </div>
         {/* Mobile close button */}
         <button
           onClick={() => setSidebarOpen(false)}
-          className="md:hidden p-1.5 rounded-lg text-white/70 hover:text-white hover:bg-white/10"
+          className="md:hidden p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/15 transition-colors"
           aria-label="Close sidebar"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 overflow-y-auto" aria-label="Restaurant navigation">
-        <p className="text-[10px] text-forest-muted font-semibold uppercase tracking-widest mb-3 px-3">Menu</p>
-        <div className="flex flex-col gap-1">
+      <nav className="flex-1 px-3.5 py-4 overflow-y-auto" aria-label="Restaurant navigation">
+        <p className="text-xs text-white/80 font-bold uppercase tracking-wider mb-3 px-3">Main Menu</p>
+        <div className="flex flex-col gap-1.5">
           {navItems.map((item) =>
             item.path ? (
               <Link
                 key={item.label}
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
-                className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm no-underline transition-all duration-150 ${
+                className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold no-underline transition-all duration-150 ${
                   location.pathname === item.path
-                    ? 'bg-primary text-white font-semibold shadow-sm'
-                    : 'text-forest-muted hover:bg-forest-light/80 hover:text-white'
+                    ? 'bg-white text-forest-dark font-bold shadow-md'
+                    : 'text-white/95 hover:bg-white/15 hover:text-white'
                 }`}
               >
-                <item.icon className={`w-[17px] h-[17px] flex-shrink-0 transition-transform group-hover:scale-110 ${
-                  location.pathname === item.path ? 'text-white' : ''
+                <item.icon className={`w-[18px] h-[18px] flex-shrink-0 transition-transform group-hover:scale-110 ${
+                  location.pathname === item.path ? 'text-primary' : 'text-white/90'
                 }`} />
                 <span className="flex-1 leading-none truncate">{item.label}</span>
                 {item.badge > 0 && (
-                  <span className="pulse-badge bg-secondary text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center leading-none">
+                  <span className="pulse-badge bg-secondary text-white text-[11px] font-bold px-2 py-0.5 rounded-full min-w-[20px] text-center leading-none shadow-xs">
                     {item.badge}
                   </span>
                 )}
@@ -129,11 +129,11 @@ function RestaurantLayout({ children }) {
             ) : (
               <span
                 key={item.label}
-                className="group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-forest-muted/40 cursor-not-allowed"
+                className="group flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm text-white/50 font-medium cursor-not-allowed"
               >
-                <item.icon className="w-[17px] h-[17px] flex-shrink-0" />
+                <item.icon className="w-[18px] h-[18px] flex-shrink-0 text-white/40" />
                 <span className="flex-1 leading-none truncate">{item.label}</span>
-                <span className="text-[9px] bg-forest-light px-1.5 py-0.5 rounded-full text-forest-muted/60 font-medium">Soon</span>
+                <span className="text-[10px] bg-white/15 text-white/75 px-2 py-0.5 rounded-full font-semibold border border-white/20">Soon</span>
               </span>
             )
           )}
@@ -141,12 +141,12 @@ function RestaurantLayout({ children }) {
       </nav>
 
       {/* Logout */}
-      <div className="px-3 py-4 border-t border-forest-light/60">
+      <div className="px-3.5 py-4 border-t border-white/15">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all duration-150 group"
+          className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-red-300 hover:bg-red-500/20 hover:text-red-200 transition-all duration-150 group"
         >
-          <IconLogout className="w-[17px] h-[17px] flex-shrink-0 transition-transform group-hover:-translate-x-0.5" />
+          <IconLogout className="w-[18px] h-[18px] flex-shrink-0 transition-transform group-hover:-translate-x-0.5" />
           <span>Log out</span>
         </button>
       </div>

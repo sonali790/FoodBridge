@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ngoSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   password: { type: String, required: true },
   location: { type: String, required: true },
   foodTypeNeeded: { type: String, enum: ['veg', 'non-veg', 'any'], required: true },
